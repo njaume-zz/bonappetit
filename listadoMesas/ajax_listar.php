@@ -7,7 +7,7 @@
 // Se chequea si existe un login
 require_once '../usuarios/aut_verifica.inc.php';
 require_once '../ClasesBasicas/ConsultaBD.php';
-require_once "../ClasesBasicas/Basico.php";
+include_once '../ClasesBasicas/Basico.php';
 
 header ("Expires: Fri, 14 Mar 1980 20:53:00 GMT"); //la pagina expira en fecha pasada
 header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); //ultima actualizacion ahora cuando la cargamos
@@ -28,17 +28,17 @@ if($_SESSION['usuario_nivel']==2) {
     if (isset($_GET['criterio_buscar'])) {
         $ver = $_GET['criterio_buscar'];
         if($ver<>'')   
-            $sql.=" AND pedido_maestros.mesa_nro=".fn_filtro(substr(utf8_decode($_GET['criterio_buscar']), 0, 16));
+            $sql.=" AND pedido_maestros.mesa_nro=".mysql_real_escape_string(substr(utf8_decode($_GET['criterio_buscar']), 0, 16));
     }
 } else {    
     if (isset($_GET['criterio_buscar'])) {
         $ver = $_GET['criterio_buscar'];
         if($ver<>'')
-            $sql.=" WHERE pedido_maestros.mesa_nro=".fn_filtro(substr(utf8_decode($_GET['criterio_buscar']), 0, 16));
+            $sql.=" WHERE pedido_maestros.mesa_nro=".mysql_real_escape_string(substr(utf8_decode($_GET['criterio_buscar']), 0, 16));
     }
 }
 if (isset($_GET['criterio_ordenar_por']))
-    $sql .= sprintf(" order by %s %s", fn_filtro($_GET['criterio_ordenar_por']), fn_filtro($_GET['criterio_orden']));
+    $sql .= sprintf(" order by %s %s", mysql_real_escape_string($_GET['criterio_ordenar_por']), mysql_real_escape_string($_GET['criterio_orden']));
 else
     $sql.=" ORDER BY fecha_y_hora DESC";
 
