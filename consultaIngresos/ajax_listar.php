@@ -115,7 +115,7 @@ if (isset($_GET['gastado_hasta']) && ($_GET['gastado_hasta']<>'')) {
         $sql.=" AND total <=".$_GET['gastado_hasta'];
 }
 if (isset($_GET['criterio_ordenar_por']))
-        $sql .= sprintf(" order by %s %s ", fn_filtro($_GET['criterio_ordenar_por']), fn_filtro($_GET['criterio_orden']));
+        $sql .= sprintf(" order by %s %s ", mysql_real_escape_string($_GET['criterio_ordenar_por']), mysql_real_escape_string($_GET['criterio_orden']));
 else
         $sql .= " order by factura_maestros.id desc";
 
@@ -123,7 +123,7 @@ $paging->agregarConsulta($sql);
 $paging->div('div_listar');
 $paging->modo('desarrollo'); 
 if (isset($_GET['criterio_mostrar']))
-        $paging->porPagina(fn_filtro((int)$_GET['criterio_mostrar']));
+        $paging->porPagina(mysql_real_escape_string((int)$_GET['criterio_mostrar']));
 $paging->verPost(true);
 $paging->mantenerVar("criterio_buscar", "criterio_ordenar_por", "criterio_orden", "criterio_mostrar","fechaDesde","horaDesde","fechaHasta","horaHasta","empleado_ID","empleado","ubicacion","gastado_de","gastado_hasta", "intervalo");
 $paging->ejecutar();
