@@ -16,6 +16,7 @@ require_once ('../usuarios/aut_verifica.inc.php');
         <div id="fecha">Fecha&nbsp;&nbsp;<span><?php echo date('d-m-Y'); ?></span></div></div>
     </div>   
     <?php
+//hola
     include_once ('../ClasesBasicas/menu_horizontal.php');
     ?>
 </div>
