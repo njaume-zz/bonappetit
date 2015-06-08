@@ -5,10 +5,18 @@
  * 
 */
 // Se chequea si existe un login
-require_once '../usuarios/aut_verifica.inc.php';
-require_once '../ClasesBasicas/ConsultaBD.php';
-require_once '../ClasesBasicas/PHPPaging.lib.php';
-require_once '../ClasesBasicas/Basico.php';
+require_once ('../usuarios/aut_verifica.inc.php');
+
+
+
+require_once ('../ClasesBasicas/ConsultaBD.php');
+
+
+require_once ('../ClasesBasicas/PHPPaging.lib.php');
+
+include_once ('../ClasesBasicas/Basico.php');
+
+
 
 header ("Expires: Fri, 14 Mar 1980 20:53:00 GMT"); //la pagina expira en fecha pasada
 header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); //ultima actualizacion ahora cuando la cargamos
@@ -53,7 +61,7 @@ if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
         }
 
 } else {
- if(isset($_GET['intervalo']) && ($_GET['intervalo']==1)) {
+  if(isset($_GET['intervalo']) && ($_GET['intervalo']==1)) {
         if (isset($_GET['fechaDesde']) && ($_GET['fechaDesde']<>'')) {
                 $dia=substr($_GET['fechaDesde'],0,2);                
                 $mes=substr($_GET['fechaDesde'],3,2);        
@@ -115,7 +123,7 @@ if (isset($_GET['gastado_hasta']) && ($_GET['gastado_hasta']<>'')) {
         $sql.=" AND total <=".$_GET['gastado_hasta'];
 }
 if (isset($_GET['criterio_ordenar_por']))
-        $sql .= sprintf(" order by %s %s ", mysql_real_escape_string($_GET['criterio_ordenar_por']), mysql_real_escape_string($_GET['criterio_orden']));
+       $sql .= sprintf(" order by %s %s ",  mysql_real_escape_string($_GET['criterio_ordenar_por']),  mysql_real_escape_string($_GET['criterio_orden']));
 else
         $sql .= " order by factura_maestros.id desc";
 
@@ -123,7 +131,7 @@ $paging->agregarConsulta($sql);
 $paging->div('div_listar');
 $paging->modo('desarrollo'); 
 if (isset($_GET['criterio_mostrar']))
-        $paging->porPagina(mysql_real_escape_string((int)$_GET['criterio_mostrar']));
+        $paging->porPagina( mysql_real_escape_string((int)$_GET['criterio_mostrar']));
 $paging->verPost(true);
 $paging->mantenerVar("criterio_buscar", "criterio_ordenar_por", "criterio_orden", "criterio_mostrar","fechaDesde","horaDesde","fechaHasta","horaHasta","empleado_ID","empleado","ubicacion","gastado_de","gastado_hasta", "intervalo");
 $paging->ejecutar();
@@ -162,7 +170,7 @@ function RestarHoras($horaini,$horafin)
             <td>Total</td>                          
         </tr>
     <?php
-        $subtotal=0;
+
         while ($rs_inf = $paging->fetchResultado()){
                 
                         ?>         
@@ -176,13 +184,8 @@ function RestarHoras($horaini,$horafin)
                     <td style="text-align: right"><?php echo $rs_inf['promedio']; ?></td>                        
                     <td style="text-align: right"><?php echo $rs_inf['total']; ?></td>                                                                      
                 </tr>
-            <?php   
-            $subtotal+= $rs_inf['total'];
-
+            <?php
         }
-        if($subtotal!=0)
-            echo "<tr><td style='text-align: left'> Subtotal : </td><td></td><td></td><td></td><td></td><td></td><td></td><td>".$subtotal."</td></tr>";
-
         ?>
     <tfoot style="text-align: center">
         <tr>
@@ -238,7 +241,16 @@ if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
                 $hora=substr($_GET['horaDesde'],0,2);                
                 $min=substr($_GET['horaDesde'],3,2);        
                 $seg='00';
+
+
+            if(isset($_GET['nocturno'])){
                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+                $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') < TIME_FORMAT('24:00:00', '%H:%i:%s')";
+            }
+            else{
+
+             $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+            }
         }
         if (isset($_GET['fechaHasta']) && ($_GET['fechaHasta']<>'')) {
                 $dia=substr($_GET['fechaHasta'],0,2);                
@@ -250,7 +262,15 @@ if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
                 $hora=substr($_GET['horaHasta'],0,2);                
                 $min=substr($_GET['horaHasta'],3,2);        
                 $seg='00';
+
+            if(isset($_GET['nocturno'])){
                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') > TIME_FORMAT('00:00:00', '%H:%i:%s')";
+               }
+            else{
+
+             $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+            }
         }
     }
 }
@@ -266,6 +286,7 @@ if (isset($_GET['gastado_de']) && ($_GET['gastado_de']<>'')) {
 if (isset($_GET['gastado_hasta']) && ($_GET['gastado_hasta']<>'')) {
         $sql.=" AND total <=".$_GET['gastado_hasta'];
 }
+//echo($sql);
 $conexion->executeQuery($sql);
 $rs_receta = $conexion->getFetchObject();
 
@@ -283,6 +304,9 @@ if(($rs_receta->comensales<>0)&&($rs_receta->comensales<>''))
 	echo "Promedio de ingreso por comensal: $".round($rs_receta->total_gral/$rs_receta->comensales,2)."<br/>";     
 else 
 	echo "Promedio de ingreso por comensal: $ 0<br/>";     
-echo "Total: $".$rs_receta->total_gral."<br/>";     
+echo "Total: $".$rs_receta->total_gral."<br/>";
+
+
+
 ?><br />           
 </div>
