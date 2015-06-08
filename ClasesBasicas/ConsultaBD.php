@@ -5,7 +5,7 @@
  * @since      File available since Release 1.0
 */
 
-include_once 'Conexion.php';
+include_once ('Conexion.php');
 
 class ConsultaBD   // se declara una clase para poder ejecutar las consultas, esta clase llama a la clase conexion
 {

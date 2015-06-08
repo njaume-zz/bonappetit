@@ -5,7 +5,7 @@
  * 
 */
 // Se chequea si existe un login
-require_once '../usuarios/aut_verifica.inc.php';
+require_once ('../usuarios/aut_verifica.inc.php');
 
 if(isset($_GET['t'])) {
     $tipo = $_GET['t'];
@@ -83,14 +83,14 @@ if(isset($_GET['t'])) {
 </head>
 <body>
 <div class="contenedor">
-<header> <?php include_once '../ClasesBasicas/Encabezado.php'; ?> </header>
+<header> <?php include_once ('../ClasesBasicas/Encabezado.php'); ?> </header>
 <div id="cuerpo">    
     <!-- mesas --> 
         <div id="body">                                                            
             <div id="ubicacion">
                 <ul class="ubicacion">
                 <?php 
-                require_once '../ClasesBasicas/ConsultaBD.php';
+                require_once ('../ClasesBasicas/ConsultaBD.php');
                 $con = new ConsultaBD();
                 $con->Conectar();        
                 $sql = "select * from ubicacion ";
@@ -115,7 +115,7 @@ if(isset($_GET['t'])) {
             </div>
         </div>
 </div>
-<footer><?php include_once '../ClasesBasicas/Pie.php'; ?></footer>
+<footer><?php include_once ('../ClasesBasicas/Pie.php'); ?></footer>
 </div>
 </body>
 </html>

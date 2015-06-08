@@ -3,7 +3,7 @@
 **
  */
 
-require_once '../usuarios/aut_verifica.inc.php';
+require_once ('../usuarios/aut_verifica.inc.php');
 ?>
 <div id="header" style="z-index: 10000">        
     <div id="encabezado">
@@ -16,6 +16,6 @@ require_once '../usuarios/aut_verifica.inc.php';
         <div id="fecha">Fecha&nbsp;&nbsp;<span><?php echo date('d-m-Y'); ?></span></div></div>
     </div>   
     <?php
-    include_once("../clasesBasicas/menu_horizontal.php");
+    include_once ('../ClasesBasicas/menu_horizontal.php');
     ?>
 </div>
