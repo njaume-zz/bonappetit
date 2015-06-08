@@ -53,39 +53,52 @@ if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
         }
 
 } else {
-    if(isset($_GET['intervalo']) && ($_GET['intervalo']==1)) {
+ if(isset($_GET['intervalo']) && ($_GET['intervalo']==1)) {
         if (isset($_GET['fechaDesde']) && ($_GET['fechaDesde']<>'')) {
                 $dia=substr($_GET['fechaDesde'],0,2);                
                 $mes=substr($_GET['fechaDesde'],3,2);        
                 $anio=substr($_GET['fechaDesde'],6,4);
                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d') >= DATE_FORMAT('".$anio."-".$mes."-".$dia."', '%Y-%m-%d')";
         }
-        if (isset($_GET['horaDesde']) && ($_GET['horaDesde']<>'')) {
-                $hora=substr($_GET['horaDesde'],0,2);                
-                $min=substr($_GET['horaDesde'],3,2);        
-                $seg='00';
-                $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
-        }
-        if (isset($_GET['fechaHasta']) && ($_GET['fechaHasta']<>'')) {
+          if (isset($_GET['fechaHasta']) && ($_GET['fechaHasta']<>'')) {
                 $dia=substr($_GET['fechaHasta'],0,2);                
                 $mes=substr($_GET['fechaHasta'],3,2);        
                 $anio=substr($_GET['fechaHasta'],6,4);
                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d') <= DATE_FORMAT('".$anio."-".$mes."-".$dia."', '%Y-%m-%d')";
         }
+        if (isset($_GET['horaDesde']) && ($_GET['horaDesde']<>'')) {
+                $hora=substr($_GET['horaDesde'],0,2);
+                $min=substr($_GET['horaDesde'],3,2);
+                $seg='00';
+
+             if (isset($_GET['nocturno'])){
+                $sql .= "  AND ((DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+                  $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') < TIME_FORMAT('24:00:00', '%H:%i:%s'))";
+             }
+            else{
+
+             $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+
+
+             }
+        }
+
         if (isset($_GET['horaHasta']) && ($_GET['horaHasta']<>'')) {
                 $hora=substr($_GET['horaHasta'],0,2);                
                 $min=substr($_GET['horaHasta'],3,2);        
                 $seg='00';
+            if (isset($_GET['nocturno'])){
+               //////////inicio de mi quiery para el turno nocturna
+         $sql .= "  OR (DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') > TIME_FORMAT('00:00:00', '%H:%i:%s')))";
+
+     //////////fin mi quiery para el turno nocturna
+            }else {
                 
-                ///////////// cosa nueva para los horarios nocturnos
-                if(ISSET($_GET['nocturno'])){
-                $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
-                }
-                else{
-                $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d%H:%i:%s') <= 
-                ADDDATE(TIMESTAMP(DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d%'), TIMESTAMP(TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s'))),1 DAY) ";
-                }
-                //////////////// termina cosa nueva       TIMESTAMP(DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d%'), TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s'))
+                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+
+            }
+
         }
     }
 }
