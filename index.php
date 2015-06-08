@@ -7,3 +7,4 @@
 require_once 'usuarios/aut_verifica.inc.php';
 
 header("Location: admMesas/index.php");
+xahsd
