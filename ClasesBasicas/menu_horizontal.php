@@ -7,7 +7,7 @@
 */
 
 // Se chequea si existe un login
-require_once '../usuarios/aut_verifica.inc.php';
+require_once ('../usuarios/aut_verifica.inc.php');
 ?>
 <div id='menuWrapper'>
             <div id="contieneMenu">    
@@ -79,4 +79,4 @@ require_once '../usuarios/aut_verifica.inc.php';
                     
             </ul>
     </div>
-</div>    
+</div>
