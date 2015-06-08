@@ -7,7 +7,7 @@
 // Se chequea si existe un login
 require_once '../usuarios/aut_verifica.inc.php';
 require_once '../ClasesBasicas/ConsultaBD.php';
-include_once '../ClasesBasicas/Basico.php';
+include_once '../ClasesBasicas/basico.php';
 
 header ("Expires: Fri, 14 Mar 1980 20:53:00 GMT"); //la pagina expira en fecha pasada
 header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); //ultima actualizacion ahora cuando la cargamos
