@@ -192,12 +192,8 @@ function RestarHoras($horaini,$horafin)
                 </tr>
                 
             <?php                                   
-            $id_ant=$rs_inf['id'];
-            $total=$total+$rs_inf['cantidad'];
         }
-        if($total!=0)
-            echo "<tr><td> Subtotal : </td><td><td></td></td><td></td><td></td><td></td><td>". utf8_encode($total) ." </td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-        ?>
+               ?>
     <tfoot style="text-align: center">
         <tr>
             <td colspan="13">
@@ -205,11 +201,103 @@ function RestarHoras($horaini,$horafin)
             </td>
         </tr>
     </tfoot>
-</table><?php                
+</table>
+
+<?php 
+
+//Aqui mostramos el total de cantidad
+
+$conexion = new ConsultaBD();
+$conexion->Conectar();
+
+$sql = "SELECT SUM(factura_detalles.cantidad) AS totalcantidad  from factura_maestros
+
+INNER JOIN factura_detalles ON factura_maestros.`id`=factura_detalles.`factura_maestro_id`
+LEFT JOIN empleados ON factura_maestros.`empleado_id`=empleados.`id`
+LEFT JOIN tipo_recetas ON tipo_recetas.`id`=factura_detalles.`id_tipo_plato` ";
+if (isset($_GET['criterio_buscar']))
+        $sql .= " WHERE factura_detalles.descripcion like '%".fn_filtro(substr(utf8_decode($_GET['criterio_buscar']), 0, 16))."%'";
+
+if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
+
+    if (isset($_GET['fechaDesde']) && ($_GET['fechaDesde']<>'')) {
+            $dia=substr($_GET['fechaDesde'],0,2);                
+            $mes=substr($_GET['fechaDesde'],3,2);        
+            $anio=substr($_GET['fechaDesde'],6,4);
+            if (isset($_GET['horaDesde']) && ($_GET['horaDesde']<>'')) {
+                $hora=substr($_GET['horaDesde'],0,2);                
+                $min=substr($_GET['horaDesde'],3,2);        
+            } else {
+                $hora = '00';
+                $min = '00';
+            }
+            $seg='00';
+            $sql .= "  AND IF(factura_detalles.`fecha_alta` IS NULL, DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d %H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_alta`,'%Y-%m-%d %H:%i:%s')) >= DATE_FORMAT('".$anio."-".$mes."-".$dia." ".$hora.":".$min.":".$seg."', '%Y-%m-%d %H:%i:%s')";
+    }
+    
+    if (isset($_GET['fechaHasta']) && ($_GET['fechaHasta']<>'')) {
+            $dia=substr($_GET['fechaHasta'],0,2);                
+            $mes=substr($_GET['fechaHasta'],3,2);        
+            $anio=substr($_GET['fechaHasta'],6,4);
+            if (isset($_GET['horaHasta']) && ($_GET['horaHasta']<>'')) {
+                $hora=substr($_GET['horaHasta'],0,2);                
+                $min=substr($_GET['horaHasta'],3,2);        
+            } else  {
+                $hora = '00';
+                $min = '00';
+            }
+            $seg='00';
+            $sql .= "  AND IF(factura_detalles.`fecha_alta` IS NULL, DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d %H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_alta`,'%Y-%m-%d %H:%i:%s')) <= DATE_FORMAT('".$anio."-".$mes."-".$dia." ".$hora.":".$min.":".$seg."', '%Y-%m-%d %H:%i:%s')";
+    }
+
+} else {
+    if(isset($_GET['intervalo']) && ($_GET['intervalo']==1)) {
+        if (isset($_GET['fechaDesde']) && ($_GET['fechaDesde']<>'')) {
+                $dia=substr($_GET['fechaDesde'],0,2);                
+                $mes=substr($_GET['fechaDesde'],3,2);        
+                $anio=substr($_GET['fechaDesde'],6,4);
+                $sql .= "  AND IF(factura_detalles.`fecha_alta` IS NULL, DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d'), DATE_FORMAT(factura_detalles.`fecha_alta`,'%Y-%m-%d')) >= DATE_FORMAT('".$anio."-".$mes."-".$dia."', '%Y-%m-%d')";
+        }
+        if (isset($_GET['horaDesde']) && ($_GET['horaDesde']<>'')) {
+                $hora=substr($_GET['horaDesde'],0,2);                
+                $min=substr($_GET['horaDesde'],3,2);        
+                $seg='00';
+                $sql .= "  AND IF(factura_detalles.`fecha_alta` IS NULL, DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_alta`,'%H:%i:%s')) >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+        }
+        if (isset($_GET['fechaHasta']) && ($_GET['fechaHasta']<>'')) {
+                $dia=substr($_GET['fechaHasta'],0,2);                
+                $mes=substr($_GET['fechaHasta'],3,2);        
+                $anio=substr($_GET['fechaHasta'],6,4);
+                $sql .= "  AND IF(factura_detalles.`fecha_alta` IS NULL, DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d'), DATE_FORMAT(factura_detalles.`fecha_alta`,'%Y-%m-%d')) <= DATE_FORMAT('".$anio."-".$mes."-".$dia."', '%Y-%m-%d')";
+        }
+        if (isset($_GET['horaHasta']) && ($_GET['horaHasta']<>'')) {
+                $hora=substr($_GET['horaHasta'],0,2);                
+                $min=substr($_GET['horaHasta'],3,2);        
+                $seg='00';
+                $sql .= "  AND IF(factura_detalles.`fecha_alta` IS NULL, DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_alta`,'%H:%i:%s')) <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+        }
+    }
+}
+if (isset($_GET['empleado']) && ($_GET['empleado']<>'')) {
+        $sql .= "  AND empleados.id = ".$_GET['empleado_ID']."";
+}
+if (isset($_GET['tipo_receta']) && ($_GET['tipo_receta']<>'')) {
+        $sql .= "  AND  tipo_recetas.`id`= ".$_GET['tipo_receta']."";
+}
+if (isset($_GET['tipo_estado']) && ($_GET['tipo_estado']<>'')) {
+        $sql.=" AND id_tipo_plato<>4 AND TIMEDIFF(IF(factura_detalles.`fecha_entrega` IS NULL, DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_entrega`,'%H:%i:%s')),IF(factura_detalles.`fecha_cocina` IS NULL, DATE_FORMAT(factura_detalles.`fecha_alta`,'%H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_cocina`,'%H:%i:%s'))) ".$_GET['tipo_estado']." TIME_FORMAT('00:'+tipo_recetas.`tiempo_preparacion`+':00','%H:%s:%i')";
+}
+
+$conexion->executeQuery($sql);
+$rs_receta = $conexion->getFetchObject();
+
+               
 //-- Aqui MOSTRAMOS MAS DETALLADAMENTE EL PAGINADO
 echo "<br/>Página: ".$paging->numEstaPagina()." de ".$paging->numTotalPaginas()."<br />
 Mostrando: ".$paging->numRegistrosMostrados()." platos, del ".$paging->numPrimerRegistro()." al ".$paging->numUltimoRegistro()."<br />
 De un total de: ".$paging->numTotalRegistros()."<br />";
+
+echo "<br/> TOTAL DE CANTIDAD : ".$rs_receta->totalcantidad;
 
 
 ?><br />           
