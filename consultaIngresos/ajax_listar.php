@@ -237,42 +237,47 @@ if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
                 $anio=substr($_GET['fechaDesde'],6,4);
                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d') >= DATE_FORMAT('".$anio."-".$mes."-".$dia."', '%Y-%m-%d')";
         }
-        if (isset($_GET['horaDesde']) && ($_GET['horaDesde']<>'')) {
-                $hora=substr($_GET['horaDesde'],0,2);                
-                $min=substr($_GET['horaDesde'],3,2);        
-                $seg='00';
-
-
-            if(isset($_GET['nocturno'])){
-                $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
-                $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') < TIME_FORMAT('24:00:00', '%H:%i:%s')";
-            }
-            else{
-
-             $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
-            }
-        }
-        if (isset($_GET['fechaHasta']) && ($_GET['fechaHasta']<>'')) {
-                $dia=substr($_GET['fechaHasta'],0,2);                
-                $mes=substr($_GET['fechaHasta'],3,2);        
+          if (isset($_GET['fechaHasta']) && ($_GET['fechaHasta']<>'')) {
+                $dia=substr($_GET['fechaHasta'],0,2);
+                $mes=substr($_GET['fechaHasta'],3,2);
                 $anio=substr($_GET['fechaHasta'],6,4);
                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d') <= DATE_FORMAT('".$anio."-".$mes."-".$dia."', '%Y-%m-%d')";
         }
+        if (isset($_GET['horaDesde']) && ($_GET['horaDesde']<>'')) {
+                $hora=substr($_GET['horaDesde'],0,2);
+                $min=substr($_GET['horaDesde'],3,2);
+                $seg='00';
+
+             if (isset($_GET['nocturno'])){
+                $sql .= "  AND ((DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+                  $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') < TIME_FORMAT('24:00:00', '%H:%i:%s'))";
+             }
+            else{
+
+             $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') >= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+
+
+             }
+        }
+
         if (isset($_GET['horaHasta']) && ($_GET['horaHasta']<>'')) {
                 $hora=substr($_GET['horaHasta'],0,2);                
                 $min=substr($_GET['horaHasta'],3,2);        
                 $seg='00';
+            if (isset($_GET['nocturno'])){
+               //////////inicio de mi quiery para el turno nocturna
+         $sql .= "  OR (DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') > TIME_FORMAT('00:00:00', '%H:%i:%s')))";
 
-            if(isset($_GET['nocturno'])){
-                $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
-                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') > TIME_FORMAT('00:00:00', '%H:%i:%s')";
-               }
-            else{
+     //////////fin mi quiery para el turno nocturna
+            }else {
 
-             $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
+
             }
+
         }
-    }
+     }
 }
 if (isset($_GET['empleado']) && ($_GET['empleado']<>'')) {
         $sql .= "  AND empleados.id = ".$_GET['empleado_ID']."";
@@ -304,7 +309,7 @@ if(($rs_receta->comensales<>0)&&($rs_receta->comensales<>''))
 	echo "Promedio de ingreso por comensal: $".round($rs_receta->total_gral/$rs_receta->comensales,2)."<br/>";     
 else 
 	echo "Promedio de ingreso por comensal: $ 0<br/>";     
-echo "Total: $".$rs_receta->total_gral."<br/>";
+echo "Total: $".$rs_receta->total_gral."<br/> $sql<br>";
 
 
 
