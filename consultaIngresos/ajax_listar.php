@@ -133,7 +133,7 @@ $paging->modo('desarrollo');
 if (isset($_GET['criterio_mostrar']))
         $paging->porPagina( mysql_real_escape_string((int)$_GET['criterio_mostrar']));
 $paging->verPost(true);
-$paging->mantenerVar("criterio_buscar", "criterio_ordenar_por", "criterio_orden", "criterio_mostrar","fechaDesde","horaDesde","fechaHasta","horaHasta","empleado_ID","empleado","ubicacion","gastado_de","gastado_hasta", "intervalo");
+$paging->mantenerVar("criterio_buscar", "criterio_ordenar_por", "criterio_orden", "criterio_mostrar","nocturno","fechaDesde","horaDesde","fechaHasta","horaHasta","empleado_ID","empleado","ubicacion","gastado_de","gastado_hasta", "intervalo");
 $paging->ejecutar();
 
 function RestarHoras($horaini,$horafin)
@@ -238,8 +238,8 @@ if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d') >= DATE_FORMAT('".$anio."-".$mes."-".$dia."', '%Y-%m-%d')";
         }
           if (isset($_GET['fechaHasta']) && ($_GET['fechaHasta']<>'')) {
-                $dia=substr($_GET['fechaHasta'],0,2);
-                $mes=substr($_GET['fechaHasta'],3,2);
+                $dia=substr($_GET['fechaHasta'],0,2);                
+                $mes=substr($_GET['fechaHasta'],3,2);        
                 $anio=substr($_GET['fechaHasta'],6,4);
                 $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%Y-%m-%d') <= DATE_FORMAT('".$anio."-".$mes."-".$dia."', '%Y-%m-%d')";
         }
@@ -271,13 +271,13 @@ if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
 
      //////////fin mi quiery para el turno nocturna
             }else {
-
+                
                  $sql .= "  AND DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s') <= TIME_FORMAT('".$hora.":".$min.":".$seg."', '%H:%i:%s')";
 
             }
 
         }
-     }
+   }
 }
 if (isset($_GET['empleado']) && ($_GET['empleado']<>'')) {
         $sql .= "  AND empleados.id = ".$_GET['empleado_ID']."";
@@ -309,7 +309,7 @@ if(($rs_receta->comensales<>0)&&($rs_receta->comensales<>''))
 	echo "Promedio de ingreso por comensal: $".round($rs_receta->total_gral/$rs_receta->comensales,2)."<br/>";     
 else 
 	echo "Promedio de ingreso por comensal: $ 0<br/>";     
-echo "Total: $".$rs_receta->total_gral."<br/> $sql<br>";
+echo "Total: $".$rs_receta->total_gral."<br/>";
 
 
 
