@@ -42,14 +42,17 @@ function fn_cerrar(){
 
 function fn_buscar(){
 	var str = $("#frm_buscar").serialize();
+
 	$.ajax({
 		url: 'ajax_listar.php',
 		type: 'get',
 		data: str,
 		success: function(data){
-			$("#div_listar").html(data);
+			$("#div_listar").empty().html(data);
+
 		}
 	});
+
 }
 
 

@@ -44,7 +44,8 @@ require_once '../ClasesBasicas/ConsultaBD.php';
                 <select name="intervalo" ide="intervalo" class="required">                    
                     <option value="1">Intervalo Diario</option>                    
                     <option value="0" >Completas</option>
-                </select>                
+                </select>
+                  noche:  <input type=checkbox name="nocturno" id="nocturno" ><br>
                 <cite>Mozo:</cite> 
                 <input type="text" id="empleado" class="textolargo" name="empleado" value="" onKeyUp="ajax_showOptionsEmpleado(this,'getEmpleadoByLetters',event)" onBlur="this.style.color='#333333'" size="30"/>
                 <input type="hidden" id="empleado_hidden" name="empleado_ID" value=""/>
