@@ -64,6 +64,15 @@ $conexion->Close();
                 <td>email:</td>
                 <td><input name="email" type="text" id="email" size="40" class="required" value="<?php echo $rs_cliente->email; ?>"/>                                 </td>
             </tr>
+            <tr>
+                <td>Estado:</td>
+                <td>
+                    <select>
+  <option value="1" <?php if( $rs_cliente->estado == 1) echo " selected" ?>>Activo</option>
+  <option value="0" <?php if( $rs_cliente->estado == 1) echo " selected" ?>>Baja</option>
+                    </select>
+                </td>
+            </tr>
                 
         </tbody>
         <tfoot>

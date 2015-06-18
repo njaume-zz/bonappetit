@@ -46,6 +46,8 @@ $paging->ejecutar();
             <td>Telefono</td>
             <td>Direccion</td>
             <td>Email</td>
+            <td>Estado</td>
+            <td>Fecha de Baja</td>
             <td colspan="2" style="text-align: center"><a href="javascript: fn_mostrar_frm_agregar();"><img src="../img/add.png"></a></td>
     </tr>
     
@@ -60,13 +62,15 @@ $paging->ejecutar();
             <td><?php echo utf8_encode($rs_per['telefono'])?></td>
             <td><?php echo utf8_encode($rs_per['direccion'])?></td>
             <td><?php echo utf8_encode($rs_per['email'])?></td>
+            <td><?php if ($rs_per['estado'] == 1) echo "Activo"; else echo "Baja" ?></td>
+            <td><?php echo utf8_encode($rs_per['fecha_baja'])?></td>
             <td width="16px" ><a href="javascript: fn_mostrar_frm_modificar(<?php echo $rs_per['id']?>);"><img src="../img/reload.gif" /></a></td>
             <td width="16px" ><a href="javascript: fn_eliminar(<?php echo $rs_per['id']?>);"><img src="../img/borrar.gif" /></a></td>
         </tr>
     <?php } ?>
     <tfoot style="text-align: center">
         <tr>
-            <td colspan="9"><?php echo $paging->fetchNavegacion()."<br/>"; ?>             </td>
+            <td colspan="11"><?php echo $paging->fetchNavegacion()."<br/>"; ?>             </td>
         </tr>
     </tfoot>
 </table><?php                

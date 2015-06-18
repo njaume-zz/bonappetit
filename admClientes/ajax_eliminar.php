@@ -8,7 +8,7 @@
 require_once '../usuarios/aut_verifica.inc.php';
 require_once '../ClasesBasicas/ConsultaBD.php';
 
-$sql = "UPDATE empleados SET fecha_baja=now() where id=".$_POST['id'];
+$sql = "UPDATE empleados SET fecha_baja=now(), estado = '0' where id=".$_POST['id'];
 $conexion = new ConsultaBD();
 $conexion->Conectar();
 if(!$conexion->executeQuery($sql))

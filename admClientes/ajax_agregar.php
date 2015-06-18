@@ -14,10 +14,10 @@ if(empty($_POST['dni']) || empty($_POST['nombre']) || empty($_POST['apellido'])|
         exit;
 }
 $descripcion = strtoupper($_POST['razon_social']." - ".$_POST['dni']);
-$sql = "INSERT INTO `clientes` (`descripcion`,`nombre`,`apellido`,`direccion`,`telefono`,`email`,`dni`,`razon_social`) VALUES (";
+$sql = "INSERT INTO `clientes` (`descripcion`,`nombre`,`apellido`,`direccion`,`telefono`,`email`,`dni`,`razon_social`,`estado`) VALUES (";
 $sql.= "'".$descripcion."', '".strtoupper($_POST['nombre'])."', '".strtoupper($_POST['apellido'])."','".strtoupper($_POST['direccion'])."',
 '".strtoupper($_POST['telefono'])."','".strtoupper($_POST['email'])."',
-'".strtoupper($_POST['dni'])."','".strtoupper($_POST['razon_social'])."')";
+'".strtoupper($_POST['dni'])."','".strtoupper($_POST['razon_social'])."','1')";
 
 $conexion = new ConsultaBD();
 $conexion->Conectar();
