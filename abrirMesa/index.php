@@ -94,7 +94,7 @@ require_once '../ClasesBasicas/ActiveRecordAbstractFactory.php';
             }?>
             <br/>
             <label>Ubicaci&oacute;n:</label>    
-            <select name="ubicacion" id="ubicacion" >
+            <select name="ubicacion" id="ubicacion" style='max-width:100px' >
                 <?php 
                 require_once '../ClasesBasicas/ConsultaBD.php';
                 $con = new ConsultaBD();

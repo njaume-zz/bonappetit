@@ -230,6 +230,7 @@ if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
         }
 
 } else {
+
     if(isset($_GET['intervalo']) && ($_GET['intervalo']==1)) {
         if (isset($_GET['fechaDesde']) && ($_GET['fechaDesde']<>'')) {
                 $dia=substr($_GET['fechaDesde'],0,2);                
