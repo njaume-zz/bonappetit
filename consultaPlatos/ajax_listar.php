@@ -5,17 +5,11 @@
  * 
 */
 // Se chequea si existe un login
-<<<<<<< HEAD
-require_once '../usuarios/aut_verifica.inc.php';
-require_once '../ClasesBasicas/ConsultaBD.php';
-require_once "../ClasesBasicas/PHPPaging.lib.php";
-require_once "../ClasesBasicas/basico.php";
-=======
 require_once ('../usuarios/aut_verifica.inc.php');
 require_once ('../ClasesBasicas/ConsultaBD.php');
 require_once ("../ClasesBasicas/PHPPaging.lib.php");
 require_once ("../ClasesBasicas/basico.php");
->>>>>>> origin/master
+
 
 header ("Expires: Fri, 14 Mar 1980 20:53:00 GMT"); //la pagina expira en fecha pasada
 header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); //ultima actualizacion ahora cuando la cargamos
