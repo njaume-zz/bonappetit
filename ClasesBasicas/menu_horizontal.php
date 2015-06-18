@@ -12,13 +12,13 @@ require_once ('../usuarios/aut_verifica.inc.php');
 <div id='menuWrapper'>
             <div id="contieneMenu">    
             <ul class='menu'>            
-            <li class='top'><a class='top_link' href='../abrirMesa/index.php'><span>Abrir Mesa</span></a></li>
+                <li class='top'><a class='top_link' href='../abrirMesa/index.php' accesskey="a"><span><u>A</u>brir Mesa</span></a></li>
             
 
             <li class='top'><a class='top_link' href='#'><span class='down'>ADM Mesas &darr;</span></a>
             <ul class='sub'>
-            <li><a href='../admMesas/index.php'>Mesas Abiertas</a></li>
-            <li><a href='../listadoMesas'>Listado General</a></li>                        
+            <li><a href='../admMesas/index.php' accesskey="m"><u>M</u>esas Abiertas</a></li>
+            <li><a href='../listadoMesas' accesskey="g">Listado <u>G</u>eneral</a></li>
             </ul>
             </li>
 
@@ -26,10 +26,10 @@ require_once ('../usuarios/aut_verifica.inc.php');
             <?php if (( $_SESSION['usuario_nivel'] == "1")||( $_SESSION['usuario_nivel'] == "2")) { ?>
             <li class='top'><a class='top_link' href='#'><span class='down'>ADM Básica &darr;</span></a>
             <ul class='sub'>
-                <li><a href='../admCarta'>ADM Carta</a></li>
-                <li><a href='../admTipoReceta'>ADM Tipo de Plato</a></li>
-                <li><a href='../admEmpleados'>ADM Empleados</a></li>
-                 <li><a href='../admClientes/'>ADM Clientes</a></li>
+                <li><a href='../admCarta' accesskey="c">ADM <u>C</u>arta</a></li>
+                <li><a href='../admTipoReceta' accesskey="t">ADM <u>T</u>ipo de Plato</a></li>
+                <li><a href='../admEmpleados' accesskey="e">ADM <u>E</u>mpleados</a></li>
+                 <li><a href='../admClientes/' accesskey="l">ADM C<u>l</u>ientes</a></li>
             </ul>
             </li>
                 
@@ -38,8 +38,8 @@ require_once ('../usuarios/aut_verifica.inc.php');
             <?php if (( $_SESSION['usuario_nivel'] == "1")||( $_SESSION['usuario_nivel'] == "2")) { ?>
             <li class='top'><a class='top_link' href='#'><span class='down'>Informes &darr;</span></a>
             <ul class='sub'>
-                <li><a href='../consultaPlatos'>Consulta General de Platos</a></li>                
-                <li><a href='../consultaIngresos'>Consulta Ingresos</a></li>                
+                <li><a href='../consultaPlatos' accesskey="p">Consulta General de <u>P</u>latos</a></li>
+                <li><a href='../consultaIngresos' accesskey="i">Consulta <u>I</u>ngresos</a></li>
             </ul>
             </li>
                 
@@ -70,10 +70,10 @@ require_once ('../usuarios/aut_verifica.inc.php');
             <li class='top'><a class='top_link' href='#'><span class='down'>ADM Usuarios &darr;</span></a>
                 <ul class="sub">
                 <?php if ( $_SESSION['usuario_nivel'] == "1") { ?>
-                <li><a href="../usuarios/nuevoUsuario.php">Ingresar Nuevo</a></li>
-                <li><a href="../usuarios/aut_listar.php">Listado General</a></li>
+                <li><a href="../usuarios/nuevoUsuario.php" accesskey="n">Ingresar <u>N</u>uevo</a></li>
+                <li><a href="../usuarios/aut_listar.php" accesskey="r">Listado Gene<u>r</u>al</a></li>
                 <?php } ?>
-                <li><a href="../usuarios/aut_form_clave.php">Actualizar Clave Actual</a></li>
+                <li><a href="../usuarios/aut_form_clave.php" accesskey="v">Actualizar Cla<u>v</u>e Actual</a></li>
                 </ul>
              </li>         
                     
