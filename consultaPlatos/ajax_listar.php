@@ -386,7 +386,7 @@ echo "<br/>Página: ".$paging->numEstaPagina()." de ".$paging->numTotalPaginas()
 Mostrando: ".$paging->numRegistrosMostrados()." mesas, del ".$paging->numPrimerRegistro()." al ".$paging->numUltimoRegistro()."<br />
 Total de mesas: ".$paging->numTotalRegistros()."<br />";
 
-echo "<br/> TOTAL DE CANTIDAD : ".$rs_receta->totalcantidad;
+echo "<br/> TOTAL DE PLATOS : ".$rs_receta->totalcantidad;
 
 
 ?><br />           
