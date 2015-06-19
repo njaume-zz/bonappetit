@@ -30,6 +30,9 @@ LEFT JOIN empleados ON factura_maestros.`empleado_id`=empleados.`id`
 LEFT JOIN tipo_recetas ON tipo_recetas.`id`=factura_detalles.`id_tipo_plato` ";
 if (isset($_GET['criterio_buscar']))
         $sql .= " WHERE factura_detalles.descripcion like '%".fn_filtro(substr(utf8_decode($_GET['criterio_buscar']), 0, 16))."%'";
+  /////////////////////////7   muestro solo si van a cocina
+$sql .= " and factura_detalles.demora_preparacion= 1 ";
+/////////////////////////////////////////////////////////////
 
 if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
 
@@ -259,6 +262,9 @@ LEFT JOIN empleados ON factura_maestros.`empleado_id`=empleados.`id`
 LEFT JOIN tipo_recetas ON tipo_recetas.`id`=factura_detalles.`id_tipo_plato` ";
 if (isset($_GET['criterio_buscar']))
         $sql .= " WHERE factura_detalles.descripcion like '%".fn_filtro(substr(utf8_decode($_GET['criterio_buscar']), 0, 16))."%'";
+/////////////////////////7   muestro solo si van a cocina
+$sql .= " and factura_detalles.demora_preparacion= 1 ";
+/////////////////////////////////////////////////////////////
 
 if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
 
@@ -377,8 +383,8 @@ $rs_receta = $conexion->getFetchObject();
                
 //-- Aqui MOSTRAMOS MAS DETALLADAMENTE EL PAGINADO
 echo "<br/>Página: ".$paging->numEstaPagina()." de ".$paging->numTotalPaginas()."<br />
-Mostrando: ".$paging->numRegistrosMostrados()." platos, del ".$paging->numPrimerRegistro()." al ".$paging->numUltimoRegistro()."<br />
-De un total de: ".$paging->numTotalRegistros()."<br />";
+Mostrando: ".$paging->numRegistrosMostrados()." mesas, del ".$paging->numPrimerRegistro()." al ".$paging->numUltimoRegistro()."<br />
+Total de mesas: ".$paging->numTotalRegistros()."<br />";
 
 echo "<br/> TOTAL DE CANTIDAD : ".$rs_receta->totalcantidad;
 
