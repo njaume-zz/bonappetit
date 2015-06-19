@@ -30,9 +30,7 @@ LEFT JOIN empleados ON factura_maestros.`empleado_id`=empleados.`id`
 LEFT JOIN tipo_recetas ON tipo_recetas.`id`=factura_detalles.`id_tipo_plato` ";
 if (isset($_GET['criterio_buscar']))
         $sql .= " WHERE factura_detalles.descripcion like '%".fn_filtro(substr(utf8_decode($_GET['criterio_buscar']), 0, 16))."%'";
-  /////////////////////////7   muestro solo si van a cocina
-$sql .= " and factura_detalles.demora_preparacion= 1 ";
-/////////////////////////////////////////////////////////////
+
 
 if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
 
@@ -142,6 +140,9 @@ if (isset($_GET['tipo_receta']) && ($_GET['tipo_receta']<>'')) {
         $sql .= "  AND  tipo_recetas.`id`= ".$_GET['tipo_receta']."";
 }
 if (isset($_GET['tipo_estado']) && ($_GET['tipo_estado']<>'')) {
+    /////////////////////////7   muestro solo si van a cocina
+$sql .= " and factura_detalles.demora_preparacion= 1 ";
+/////////////////////////////////////////////////////////////
         $sql.=" AND id_tipo_plato<>4 AND TIMEDIFF(IF(factura_detalles.`fecha_entrega` IS NULL, DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_entrega`,'%H:%i:%s')),IF(factura_detalles.`fecha_cocina` IS NULL, DATE_FORMAT(factura_detalles.`fecha_alta`,'%H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_cocina`,'%H:%i:%s'))) ".$_GET['tipo_estado']." TIME_FORMAT('00:'+tipo_recetas.`tiempo_preparacion`+':00','%H:%s:%i')";
 }
 if (isset($_GET['criterio_ordenar_por']))
@@ -262,9 +263,7 @@ LEFT JOIN empleados ON factura_maestros.`empleado_id`=empleados.`id`
 LEFT JOIN tipo_recetas ON tipo_recetas.`id`=factura_detalles.`id_tipo_plato` ";
 if (isset($_GET['criterio_buscar']))
         $sql .= " WHERE factura_detalles.descripcion like '%".fn_filtro(substr(utf8_decode($_GET['criterio_buscar']), 0, 16))."%'";
-/////////////////////////7   muestro solo si van a cocina
-$sql .= " and factura_detalles.demora_preparacion= 1 ";
-/////////////////////////////////////////////////////////////
+
 
 if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
 
@@ -374,6 +373,10 @@ if (isset($_GET['tipo_receta']) && ($_GET['tipo_receta']<>'')) {
         $sql .= "  AND  tipo_recetas.`id`= ".$_GET['tipo_receta']."";
 }
 if (isset($_GET['tipo_estado']) && ($_GET['tipo_estado']<>'')) {
+        /////////////////////////7   muestro solo si van a cocina
+$sql .= " and factura_detalles.demora_preparacion= 1 ";
+/////////////////////////////////////////////////////////////
+
         $sql.=" AND id_tipo_plato<>4 AND TIMEDIFF(IF(factura_detalles.`fecha_entrega` IS NULL, DATE_FORMAT(factura_maestros.`fecha_y_hora`,'%H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_entrega`,'%H:%i:%s')),IF(factura_detalles.`fecha_cocina` IS NULL, DATE_FORMAT(factura_detalles.`fecha_alta`,'%H:%i:%s'), DATE_FORMAT(factura_detalles.`fecha_cocina`,'%H:%i:%s'))) ".$_GET['tipo_estado']." TIME_FORMAT('00:'+tipo_recetas.`tiempo_preparacion`+':00','%H:%s:%i')";
 }
 
