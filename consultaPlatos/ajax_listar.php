@@ -31,6 +31,11 @@ LEFT JOIN tipo_recetas ON tipo_recetas.`id`=factura_detalles.`id_tipo_plato` ";
 if (isset($_GET['criterio_buscar']))
         $sql .= " WHERE factura_detalles.descripcion like '%".fn_filtro(substr(utf8_decode($_GET['criterio_buscar']), 0, 16))."%'";
 
+    /////////////////////////7   muestro solo si van a cocina
+if (isset($_GET['onlycook'])){
+$sql .= " and factura_detalles.demora_preparacion= 1 ";
+}
+/////////////////////////////////////////////////////////////
 
 if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {
 
@@ -157,7 +162,7 @@ $paging->modo('desarrollo');
 if (isset($_GET['criterio_mostrar']))
         $paging->porPagina(fn_filtro((int)$_GET['criterio_mostrar']));
 $paging->verPost(true);
-$paging->mantenerVar("criterio_buscar", "criterio_ordenar_por", "criterio_orden", "criterio_mostrar","fechaDesde","horaDesde","fechaHasta","horaHasta","empleado_ID","empleado","tipo_receta","tipo_estado", "intervalo");
+$paging->mantenerVar("criterio_buscar", "criterio_ordenar_por", "criterio_orden","nocturno","onlycook", "criterio_mostrar","fechaDesde","horaDesde","fechaHasta","horaHasta","empleado_ID","empleado","tipo_receta","tipo_estado", "intervalo");
 $paging->ejecutar();
 
 function RestarHoras($horaini,$horafin)
@@ -263,6 +268,11 @@ LEFT JOIN empleados ON factura_maestros.`empleado_id`=empleados.`id`
 LEFT JOIN tipo_recetas ON tipo_recetas.`id`=factura_detalles.`id_tipo_plato` ";
 if (isset($_GET['criterio_buscar']))
         $sql .= " WHERE factura_detalles.descripcion like '%".fn_filtro(substr(utf8_decode($_GET['criterio_buscar']), 0, 16))."%'";
+    /////////////////////////7   muestro solo si van a cocina
+if (isset($_GET['onlycook'])){
+$sql .= " and factura_detalles.demora_preparacion= 1 ";
+}
+/////////////////////////////////////////////////////////////
 
 
 if(isset($_GET['intervalo']) && ($_GET['intervalo']==0)) {

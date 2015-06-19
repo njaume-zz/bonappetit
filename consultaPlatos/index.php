@@ -64,13 +64,14 @@ require_once '../ClasesBasicas/ConsultaBD.php';
                     <?php } ?>
                 </select>
                 <cite>Plato:</cite>                 
-                <input type="text" name="criterio_buscar" id="criterio_buscar" placeholder="Descripción a buscar" size="40"/>       
+                <input type="text" name="criterio_buscar" id="criterio_buscar" placeholder="Descripción a buscar" size="40"/>       <br>
                 <cite>Estado:</cite>  
                 <select name="tipo_estado" ide="tipo_estado" class="required">
                     <option value="">Todos</option>
                     <option value=">">Excedido</option>
                     <option value="<">No excedido</option>                        
-                </select>  
+                </select>
+                    Solo cocina <input type="checkbox" id="onlycook" name="onlycook">
                 <br/>
                 <cite>Ordenar por:</cite>  
                 <select name="criterio_ordenar_por" id="criterio_ordenar_por">
