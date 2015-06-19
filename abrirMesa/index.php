@@ -109,7 +109,7 @@ require_once '../ClasesBasicas/ActiveRecordAbstractFactory.php';
                 ?>          
             </select>*
             <br/>
-            <label for="empleado">Cliente:</label>
+            <label for="cliente">Cliente:</label>
                 <input type="text" id="cliente" class="textolargo" name="cliente" value="" onKeyUp="ajax_showOptionsCliente(this,'getClienteByLetters',event)" onBlur="this.style.color='#333333'" placeholder="5 - Consumidor Final"/>*
                 <input type="hidden" id="cliente_hidden" name="cliente_ID" value="5"/>                
             <br/>

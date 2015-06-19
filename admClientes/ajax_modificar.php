@@ -14,15 +14,24 @@ if(empty($_POST['id']) || empty($_POST['dni']) || empty($_POST['nombre']) || emp
         exit;
 }
 
+if ($_POST['estado'] == 1) {$sql2 = " , estado = 1, fecha_baja = null ";} // si cambia de 0 a 1, borro la fecha
+else if (($_POST['estado'] == 0) && !(empty($_POST['fecha_baja']))) {$sql2 = "";} //no cambio nada en la parte de estado
+else if (($_POST['estado'] == 0) && (empty($_POST['fecha_baja']))) {$sql2 = " ,estado=0 ,fecha_baja=now() ";} //cambia de 1 a 0, entonces cambio el estado y asigno fecha;
+
+
+
 /*modificar el registro*/
 $descripcion = strtoupper($_POST['apellido'].", ".$_POST['nombre']." - ".$_POST['dni']);
-$sql ="UPDATE clientes SET descripcion='".$descripcion."', apellido='".strtoupper($_POST['apellido'])."', nombre='".strtoupper($_POST['nombre'])."', dni='".$_POST['dni']."', razon_social='".$_POST['razon_social']."', direccion='".$_POST['direccion']."', telefono='".$_POST['telefono']."' where id=".$_POST['id'];
+$sql ="UPDATE clientes SET descripcion='".$descripcion."', apellido='".strtoupper($_POST['apellido'])."', nombre='".strtoupper($_POST['nombre'])."', dni='".$_POST['dni']."', razon_social='".$_POST['razon_social']."', direccion='".$_POST['direccion']."', telefono='".$_POST['telefono']."'";
+$where = " where id=".$_POST['id'];
+
+$sqlfinal = $sql . $sql2 . $where;
 
 $conexion = new ConsultaBD();
 $conexion->Conectar();
 
-if(!$conexion->executeQuery($sql))
-        echo "Error al Modificar el Cliente:\n$sql";
+if(!$conexion->executeQuery($sqlfinal))
+        echo "Error al Modificar el Cliente:\n$sqlfinal";
 $conexion->Close();    
 
 exit;

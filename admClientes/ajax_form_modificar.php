@@ -34,6 +34,7 @@ $conexion->Close();
 
 <form action="javascript: fn_modificar();" method="post" id="frm_agregar">
     <input type="hidden" id="id" name="id" value="<?php echo $rs_cliente->id; ?>" />
+     <input type="hidden" id="fecha_baja" name="fecha_baja" value="<?php echo $rs_cliente->fecha_baja; ?>" />
     <table class="formulario">
         <tbody>
             <tr>
@@ -67,9 +68,9 @@ $conexion->Close();
             <tr>
                 <td>Estado:</td>
                 <td>
-                    <select>
+                    <select name="estado" id="estado">
   <option value="1" <?php if( $rs_cliente->estado == 1) echo " selected" ?>>Activo</option>
-  <option value="0" <?php if( $rs_cliente->estado == 1) echo " selected" ?>>Baja</option>
+  <option value="0" <?php if( $rs_cliente->estado == 0) echo " selected" ?>>Baja</option>
                     </select>
                 </td>
             </tr>
