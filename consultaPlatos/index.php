@@ -71,7 +71,7 @@ require_once '../ClasesBasicas/ConsultaBD.php';
                     <option value=">">Excedido</option>
                     <option value="<">No excedido</option>                        
                 </select>
-                    Solo cocina <input type="checkbox" id="onlycook" name="onlycook">
+                    Solo cocina <input type="checkbox" id="onlycook" name="onlycook" checked>
                 <br/>
                 <cite>Ordenar por:</cite>  
                 <select name="criterio_ordenar_por" id="criterio_ordenar_por">
